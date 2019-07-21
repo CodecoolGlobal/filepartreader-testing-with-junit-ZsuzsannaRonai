@@ -24,19 +24,18 @@ public class FilePartReader {
         this.toLine = toLine;
     }
 
-    public String read () {
-        String fileContent = null;
-        try {
-            fileContent = new String ( Files.readAllBytes( Paths.get(filePath) ) );
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return fileContent;
+    public String read () throws IOException {
+        return new String ( Files.readAllBytes( Paths.get(filePath) ) );
     }
 
     public String readLines() {
         String filePart = "";
-        String[] fileContent = read().split("\n");
+        String[] fileContent = new String[0];
+        try {
+            fileContent = read().split("\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (int i = fromLine - 1; i < toLine; i++) {
             filePart = filePart.concat(fileContent[i] + "\n");
         }

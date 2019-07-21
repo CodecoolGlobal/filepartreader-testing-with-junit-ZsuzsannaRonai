@@ -1,16 +1,17 @@
 import org.junit.jupiter.api.Test;
 
+import java.io.IOException;
 import java.nio.file.NoSuchFileException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class FilePartReaderTest {
 
-//    @Test
-//    public void testConstructorThrowsNoSuchFileException() {
-//        FilePartReader filePartReader = new FilePartReader();
-//        assertThrows(NoSuchFileException.class, () -> filePartReader.read());
-//    }
+    @Test
+    public void testConstructorThrowsNoSuchFileException() {
+        FilePartReader filePartReader = new FilePartReader();
+        assertThrows(NoSuchFileException.class, () -> filePartReader.read());
+    }
 
     @Test
     public void testSetupFromLineLower0ThrowsException() {
@@ -32,11 +33,15 @@ class FilePartReaderTest {
     public void testRead() {
         FilePartReader filePartReader = new FilePartReader();
         filePartReader.setup("resources/test.txt", 1, 1);
-        assertEquals("a\nb\nc", filePartReader.read());
+        try {
+            assertEquals("a\nb\nc", filePartReader.read());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void testReadLinesMoreLines() {
+    public void testReadLines() {
         FilePartReader filePartReader = new FilePartReader();
         filePartReader.setup("resources/test.txt", 1, 1);
         assertEquals("a\n", filePartReader.readLines());
